@@ -1,16 +1,34 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'
 import './App.css';
 
-import TopMenuComponent from "./component/TopMenuComponent";
-
 function App() {
+    // 요청받은 정보를 담아줄 변수 선언
+    const [ testStr, setTestStr ] = useState('');
+
+    // 변수 초기화
+    function callback(str) {
+        setTestStr(str);
+    }
+
+    // 첫 번째 렌더링을 마친 후 실행
+    useEffect(
+        () => {
+            // fetch 사용 가능
+            axios({
+                url: '/home',
+                method: 'GET'
+            }).then((res) => {
+                callback(res.data);
+            })
+        }, []
+    );
+
     return (
         <div className="App">
-            <div>
-                <TopMenuComponent>
-                </TopMenuComponent>
-            </div>
+            <header className="App-header">
+                {testStr}
+            </header>
         </div>
     );
 }
